@@ -25,33 +25,19 @@ $articles = getArticles();
 
     <main>
 
-        <div class="container-fluid pb-5">
+        <div class="container-fluid pb-3">
             <div class="row text-center">
                 <img id="watchPhoto" src="images/watch.jpg" style="width: 100vw">
             </div>
         </div>
 
-        <div class="container p-3">
+        <div class="container p-5">
             <div class="row text-center justify-content-center">
-
-                <?php foreach ($articles as $article) {
-                    echo "
-                 <div class=\"card col-md-3 p-3 m-3\" style=\"width: 18rem;\">
-                    <img class=\"card-img-top\" src=\"images/" . $article['picture'] . "\" alt=\"Card image cap\">
-                    <div class=\"card-body\">
-                        <h5 class=\"card-title font-weight-bold\">" . $article['name'] . "</h5>
-                        <p class=\"card-text\">" . $article['description'] . "</p>
-                        <form action=\"panier.php\" method=\"post\">
-                            <input type=\"hidden\" name=\"chosenArticle\" value=\"" . $article['id'] . "\">
-                            <input class=\"btn btn-light\" type=\"submit\" value=\"Ajouter au panier\">
-                        </form>
-                    </div>
-                 </div>";
-                }
+                <?php
+                     showArticles();
                 ?>
             </div>
         </div>
-
 
     </main>
 
