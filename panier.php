@@ -23,9 +23,9 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
     emptyCart();
 }
 
-var_dump($_POST);
+// var_dump($_POST);
 
-var_dump($_SESSION['cart']);
+// var_dump($_SESSION['cart']);
 ?>
 
 <!DOCTYPE html>
@@ -55,8 +55,8 @@ var_dump($_SESSION['cart']);
             </div>
         </div>
 
-        <div class="container">
-
+        <div class="container text-center">
+            <h3 class="mb-5">Panier</h3>
             <?php
             foreach ($_SESSION['cart'] as $chosenArticle) {
                 echo "<div class=\"row text-center text-light align-items-center bg-dark p-3 justify-content-around mb-1\">
@@ -88,15 +88,19 @@ var_dump($_SESSION['cart']);
                 getCartTotal();
                 ?>
             </div>
-            <form action="panier.php" method="post" class="row justify-content-center text-dark font-weight-bold pt-3">
-                <input type="hidden" name="emptyCart" value="true">
-                <button type="submit" class="btn btn-danger">Vider le panier</button>
-            </form>
-            <a href="validation.php">
-                <div class="row justify-content-center text-dark font-weight-bold pb-4">
-                    <button type="button" class="btn btn-dark">Valider la commande</button>
-                </div>
-            </a>
+
+            <?php if (!empty($_SESSION['cart'])) {
+                echo   "<form action=\"panier.php\" method=\"post\" class=\"row justify-content-center text-dark font-weight-bold p-3\">
+                             <input type=\"hidden\" name=\"emptyCart\" value=\"true\">
+                            <button type=\"submit\" class=\"btn btn-danger\">Vider le panier</button>
+                        </form>
+                        <a href=\"validation.php\">
+                            <div class=\"row justify-content-center text-dark font-weight-bold bg-light p-4\">
+                                <button type=\"button\" class=\"btn btn-dark\">Valider la commande</button>
+                            </div>
+                        </a>";
+            } ?>
+
         </div>
 
     </main>

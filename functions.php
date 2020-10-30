@@ -8,7 +8,7 @@ function getArticles()
     $article1 = [
         'name' => 'Dark Watch',
         'id' => '1',
-        'price' => 150,
+        'price' => 149.99,
         'description' => 'Moderne et élégante',
         'picture' => 'watch1.jpg'
     ];
@@ -16,7 +16,7 @@ function getArticles()
     $article2 = [
         'name' => 'Classic Leather',
         'id' => '2',
-        'price' => 200,
+        'price' => 229.49,
         'description' => 'Affiche l\'heure de 250 pays',
         'picture' => 'watch2.jpg'
     ];
@@ -24,7 +24,7 @@ function getArticles()
     $article3 = [
         'name' => 'Silver Star',
         'id' => '3',
-        'price' => 350,
+        'price' => 345.99,
         'description' => 'Bracelet acier inoxydable',
         'picture' => 'watch3.jpg'
     ];
@@ -95,7 +95,7 @@ function addToCart($article)
     for ($i = 0; $i < count($_SESSION['cart']); $i++) {
 
         if ($_SESSION['cart'][$i]['id'] == $article['id']) {
-            echo "article déjà dans le panier";
+            echo "<script> alert(\"Article déjà présent dans le panier !\");</script>";
             $isArticleAlreadyAdded = true;
         }
     }
@@ -118,6 +118,7 @@ function removeToCart($articleId)
             array_splice($_SESSION['cart'], $i, 1);
         }
     }
+    echo "<script> alert(\"Article retiré du panier\");</script>";
 }
 
 
@@ -148,7 +149,11 @@ function updateQuantity()
 function checkTypedQuantity()
 {
 
-    $typedQuantity = $_POST['newQuantity'];
+    if (isset($_POST['newQuantity'])) {
+        $typedQuantity = $_POST['newQuantity'];
+    } else {
+        $typedQuantity = null;
+    }
 
     if (is_numeric($typedQuantity) && $typedQuantity >= 1 && $typedQuantity <= 9) {
         return $typedQuantity;
@@ -170,12 +175,30 @@ function getCartTotal()
         foreach ($_SESSION['cart'] as $article) {
             $cartTotal += $article['price'] * $article['quantity'];
         }
-        echo "Total à payer : " . $cartTotal . "€";
+        $cartTotal = number_format($cartTotal, 2, ',', ' ');
+        echo "Total des achats : " . $cartTotal . "€";
     } else {
         echo "Votre panier est vide !";
     }
 }
 
+
+// ****************** calculer le total du panier **********************
+
+
+function calculateShippingFees()
+{
+    $totalArticlesQuantity = 0;
+
+    $cart = $_SESSION['cart'];
+    
+    for ($i = 0; $i < count($cart); $i++) {
+
+        $totalArticlesQuantity += $cart[$i]['quantity'];
+    }
+    
+    return 3 * $totalArticlesQuantity;
+}
 
 
 // ****************** vider le panier **********************
@@ -184,4 +207,5 @@ function getCartTotal()
 function emptyCart()
 {
     $_SESSION['cart'] = [];
+    echo "<script> alert(\"Le panier a bien été vidé\");</script>";
 }

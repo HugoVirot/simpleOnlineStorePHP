@@ -15,11 +15,15 @@ if (isset($_POST['deletedArticle'])) {
     removeToCart($deletedArticleId);
 }
 
+if (isset($_POST['modifiedArticleId'])) {
+    updateQuantity();
+}
 
+if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
+    emptyCart();
+}
 
-
-
-// var_dump($_SESSION['cart']);
+var_dump($_POST);
 ?>
 
 <!DOCTYPE html>
@@ -45,29 +49,29 @@ if (isset($_POST['deletedArticle'])) {
     <main>
         <div class="container-fluid pb-5">
             <div class="row text-center">
-                <img id="watchPhoto" src="images/watchdark.jpg" style="width: 100vw">
+                <img id="watchPhoto" src="images/watchdesktop.jpg" style="width: 100vw">
             </div>
         </div>
 
-        <div class="container">
-
+        <div class="container text-center">
+            <h3 class="mb-5">Récapitulatif de votre commande</h3>
             <?php
             foreach ($_SESSION['cart'] as $chosenArticle) {
                 echo "<div class=\"row text-center text-light align-items-center bg-dark p-3 justify-content-around mb-1\">
-                                <img style=\"width: 150px\" src=\"images/" . $chosenArticle['picture'] . "\">
+                                <img style=\"width: 50px\" src=\"images/" . $chosenArticle['picture'] . "\">
                                 <p class=\"font-weight-bold\">" . $chosenArticle['name'] . "</p>
                                 <p>" . $chosenArticle['description'] . "</p>
                                 <p>" . $chosenArticle['price'] . " €</p>
 
-                                <form class=\"row\" action=\"panier.php\" method=\"post\">
+                                <form class=\"row\" action=\"validation.php\" method=\"post\">
                                 <input type=\"hidden\" name=\"modifiedArticleId\" value=\"" . $chosenArticle['id'] . "\">
-                                <input class=\"col-2 offset-3\" type=\"text\" name=\"quantity\" value=\"1\">
+                                <input class=\"col-2 offset-3\" type=\"text\" name=\"newQuantity\" value=\"" . $chosenArticle['quantity'] . "\">
                                 <button type=\"submit\" class=\"col-5 offset-1 btn btn-light\">
                                     Modifier quantité
                                 </button>
                                 </form>
 
-                                <form action=\"panier.php\" method=\"post\">
+                                <form action=\"validation.php\" method=\"post\">
                                     <input type=\"hidden\" name=\"deletedArticle\" value=\"" . $chosenArticle['id'] . "\">
                                     <button type=\"submit\" class=\"btn btn-dark\">
                                         <i class=\"fas fa-ban\"></i>
@@ -77,16 +81,17 @@ if (isset($_POST['deletedArticle'])) {
             }
             ?>
 
-            <div class="row justify-content-center text-dark font-weight-bold bg-light p-4">
+            <div class="row text-dark justify-content-end font-weight-bold bg-light p-4">
                 <?php
                 getCartTotal();
                 ?>
             </div>
-
-            <div class="row justify-content-center text-dark font-weight-bold bg-light p-4">
-                <button type="button" class="btn btn-dark">Valider la commande</button>
-            </div>
-
+            <?php if (!empty($_SESSION['cart']))
+            {
+                echo "<div class=\"row justify-content-center text-dark font-weight-bold bg-light p-4\">
+                    <button type=\"button\" class=\"btn btn-dark\">Confirmer l'achat</button>
+                </div>";
+            }?>
         </div>
 
     </main>
