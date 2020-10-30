@@ -2,6 +2,10 @@
 session_start();
 include('functions.php');
 
+if (!isset ($_SESSION['cart'])){
+    $_SESSION['cart'] = array();
+} 
+
 $articles = getArticles();
 ?>
 

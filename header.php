@@ -4,9 +4,9 @@
 <html>
 
 <header>
-        <div class="container-fluid text-center">
-            <h1 class="pt-5">Arinfo</h1>
-                <h4 class="font-weight-light pt-1 pb-5">Montres intemporelles</h2>
+    <div class="container-fluid text-center">
+        <h1 class="pt-5">Arinfo</h1>
+        <h4 class="font-weight-light pt-1 pb-5">Montres intemporelles</h2>
             <nav class="navbar navbar-expand-md navbar-light bg-light">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -17,13 +17,14 @@
                             <a class="nav-link" href="index.php">Accueil<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="panier.php">Panier</a>
+                            <a class="nav-link" href="panier.php">Panier (<span><?php echo count($_SESSION['cart']) ?></span>)
+                            </a>
                         </li>
                     </ul>
                 </div>
             </nav>
-        </div>
-    </header>
+    </div>
+</header>
 
 </html>
 

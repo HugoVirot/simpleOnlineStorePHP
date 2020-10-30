@@ -90,8 +90,20 @@ function getArticleFromId($id)
 
 function addToCart($article)
 {
+    $isArticleAlreadyAdded = false;
 
-    array_push($_SESSION['cart'], $article);
+    for ($i = 0; $i < count($_SESSION['cart']); $i++) {
+
+        if ($_SESSION['cart'][$i]['id'] == $article['id']) {
+            echo "article déjà dans le panier";
+            $isArticleAlreadyAdded = true;
+        }
+    }
+
+    if (!$isArticleAlreadyAdded) {
+        $article['quantity'] = 1;
+        array_push($_SESSION['cart'], $article);
+    }
 }
 
 
@@ -109,6 +121,43 @@ function removeToCart($articleId)
 }
 
 
+// ************ modifier la quantité d'un article dans le panier ***********
+
+function updateQuantity()
+{
+
+    $newQuantity = checkTypedQuantity();
+
+    if (is_numeric($newQuantity)) {
+
+        $modifiedArticleId = $_POST['modifiedArticleId'];
+
+        for ($i = 0; $i < count($_SESSION['cart']); $i++) {
+
+            if ($_SESSION['cart'][$i]['id'] == $modifiedArticleId) {
+                $_SESSION['cart'][$i]['quantity'] = $newQuantity;
+            }
+        }
+    }
+}
+
+
+
+// ************vérifie que la quantité entrée est un nombre entre 1 et 10  ***********
+
+function checkTypedQuantity()
+{
+
+    $typedQuantity = $_POST['newQuantity'];
+
+    if (is_numeric($typedQuantity) && $typedQuantity >= 1 && $typedQuantity <= 9) {
+        return $typedQuantity;
+    } else {
+        echo "<script> alert(\"Quantité saisie incorrecte !\");</script>";
+    }
+}
+
+
 
 // ****************** calculer le total du panier **********************
 
@@ -119,7 +168,7 @@ function getCartTotal()
     if (isset($_SESSION['cart']) && count($_SESSION['cart']) !== 0) {
 
         foreach ($_SESSION['cart'] as $article) {
-            $cartTotal += $article['price'];
+            $cartTotal += $article['price'] * $article['quantity'];
         }
         echo "Total à payer : " . $cartTotal . "€";
     } else {

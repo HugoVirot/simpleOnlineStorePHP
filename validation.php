@@ -15,17 +15,11 @@ if (isset($_POST['deletedArticle'])) {
     removeToCart($deletedArticleId);
 }
 
-if (isset($_POST['modifiedArticleId'])) {
-    updateQuantity();
-}
 
-if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
-    emptyCart();
-}
 
-var_dump($_POST);
 
-var_dump($_SESSION['cart']);
+
+// var_dump($_SESSION['cart']);
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +29,7 @@ var_dump($_SESSION['cart']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panier - Arinfo, montres intemporelles</title>
+    <title>Valider la commande - Arinfo, montres intemporelles</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
@@ -67,7 +61,7 @@ var_dump($_SESSION['cart']);
 
                                 <form class=\"row\" action=\"panier.php\" method=\"post\">
                                 <input type=\"hidden\" name=\"modifiedArticleId\" value=\"" . $chosenArticle['id'] . "\">
-                                <input class=\"col-2 offset-3\" type=\"text\" name=\"newQuantity\" value=\"" . $chosenArticle['quantity'] . "\">
+                                <input class=\"col-2 offset-3\" type=\"text\" name=\"quantity\" value=\"1\">
                                 <button type=\"submit\" class=\"col-5 offset-1 btn btn-light\">
                                     Modifier quantité
                                 </button>
@@ -88,15 +82,11 @@ var_dump($_SESSION['cart']);
                 getCartTotal();
                 ?>
             </div>
-            <form action="panier.php" method="post" class="row justify-content-center text-dark font-weight-bold pt-3">
-                <input type="hidden" name="emptyCart" value="true">
-                <button type="submit" class="btn btn-danger">Vider le panier</button>
-            </form>
-            <a href="validation.php">
-                <div class="row justify-content-center text-dark font-weight-bold pb-4">
-                    <button type="button" class="btn btn-dark">Valider la commande</button>
-                </div>
-            </a>
+
+            <div class="row justify-content-center text-dark font-weight-bold bg-light p-4">
+                <button type="button" class="btn btn-dark">Valider la commande</button>
+            </div>
+
         </div>
 
     </main>
