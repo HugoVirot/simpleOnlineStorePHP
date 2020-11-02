@@ -34,7 +34,6 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valider la commande - Arinfo, montres intemporelles</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
@@ -84,9 +83,9 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
             <div class="row text-dark justify-content-end font-weight-bold bg-light p-4">
                 <?php
                 $cartTotal = getCartTotal();
-                if ($_SESSION['cart']){
-                $cartTotal = number_format($cartTotal, 2, ',', ' ');
-                echo "Total des achats : " . $cartTotal . "€";
+                if ($_SESSION['cart']) {
+                    $cartTotal = number_format($cartTotal, 2, ',', ' ');
+                    echo "Total des achats : " . $cartTotal . "€";
                 }
                 ?>
 
@@ -97,7 +96,7 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
                 if ($_SESSION['cart']) {
                     $shippingFees = calculateShippingFees();
                     $shippingFees = number_format($shippingFees, 2, ',', ' ');
-                    echo "Frais de port (3€ par montre) : " . $shippingFees . "€";
+                    echo "Frais de port (3,00 € par montre) : " . $shippingFees . "€";
                 }
                 ?>
             </div>
@@ -123,7 +122,7 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
                 <div class="modal-dialog" role="document" pointer-events="all">
                     <div class="modal-content">
                         <div class="modal-header text-light bg-dark text-center">
-                            <h5 class="modal-title" id="exampleModalLabel">Félicitations !</h5>
+                            <h5 class="modal-title text-center" id="exampleModalLabel">Félicitations !</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

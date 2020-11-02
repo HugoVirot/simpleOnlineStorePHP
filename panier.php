@@ -36,7 +36,6 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panier - Arinfo, montres intemporelles</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
@@ -60,20 +59,22 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
             <?php
             foreach ($_SESSION['cart'] as $chosenArticle) {
                 echo "<div class=\"row text-center text-light align-items-center bg-dark p-3 justify-content-around mb-1\">
-                                <img style=\"width: 150px\" src=\"images/" . $chosenArticle['picture'] . "\">
-                                <p class=\"font-weight-bold\">" . $chosenArticle['name'] . "</p>
-                                <p>" . $chosenArticle['description'] . "</p>
-                                <p>" . $chosenArticle['price'] . " €</p>
+                                <img class=\"col-md-2\" style=\"width: 150px\" src=\"images/" . $chosenArticle['picture'] . "\">
+                                <p class=\"font-weight-bold col-md-2\">" . $chosenArticle['name'] . "</p>
+                                <p class=\"col-md-2\">" . $chosenArticle['description'] . "</p>
+                                <p class=\"col-md-2\">" . $chosenArticle['price'] . " €</p>
 
-                                <form class=\"row\" action=\"panier.php\" method=\"post\">
-                                <input type=\"hidden\" name=\"modifiedArticleId\" value=\"" . $chosenArticle['id'] . "\">
-                                <input class=\"col-2 offset-3\" type=\"text\" name=\"newQuantity\" value=\"" . $chosenArticle['quantity'] . "\">
-                                <button type=\"submit\" class=\"col-5 offset-1 btn btn-light\">
-                                    Modifier quantité
-                                </button>
+                                <form class=\"col-lg-3\" action=\"panier.php\" method=\"post\">
+                                    <div class=\"row pt-2\">
+                                    <input type=\"hidden\" name=\"modifiedArticleId\" value=\"" . $chosenArticle['id'] . "\">
+                                    <input class=\"col-2 offset-2\" type=\"text\" name=\"newQuantity\" value=\"" . $chosenArticle['quantity'] . "\">
+                                    <button type=\"submit\" class=\"col-5 offset-1 btn btn-light\">
+                                        Modifier quantité
+                                    </button>
+                                    </div>
                                 </form>
 
-                                <form action=\"panier.php\" method=\"post\">
+                                <form class=\"col-lg-1\" action=\"panier.php\" method=\"post\">
                                     <input type=\"hidden\" name=\"deletedArticle\" value=\"" . $chosenArticle['id'] . "\">
                                     <button type=\"submit\" class=\"btn btn-dark\">
                                         <i class=\"fas fa-ban\"></i>
@@ -86,9 +87,9 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
             <div class="row justify-content-center text-dark font-weight-bold bg-light p-4">
                 <?php
                 $cartTotal = getCartTotal();
-                if ($_SESSION['cart']){
-                $cartTotal = number_format($cartTotal, 2, ',', ' ');
-                echo "Total des achats : " . $cartTotal . "€";
+                if ($_SESSION['cart']) {
+                    $cartTotal = number_format($cartTotal, 2, ',', ' ');
+                    echo "Total des achats : " . $cartTotal . "€";
                 }
                 ?>
             </div>
@@ -99,7 +100,7 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
                             <button type=\"submit\" class=\"btn btn-danger\">Vider le panier</button>
                         </form>
                         <a href=\"validation.php\">
-                            <div class=\"row justify-content-center text-dark font-weight-bold bg-light p-4\">
+                            <div class=\"row justify-content-center p-4\">
                                 <button type=\"button\" class=\"btn btn-dark\">Valider la commande</button>
                             </div>
                         </a>";

@@ -7,7 +7,7 @@ if (isset($_POST['articleToDisplay'])) {
 
     $articleToDisplayId = $_POST['articleToDisplay'];
     $articleToDisplay = getArticleFromId($articleToDisplayId);
-} 
+}
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +18,6 @@ if (isset($_POST['articleToDisplay'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arinfo, montres intemporelles - <?php?></title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
@@ -32,20 +31,23 @@ if (isset($_POST['articleToDisplay'])) {
 
     <main>
         <div class="container p-5">
-            <div class="row justify-content-center border border-dark">
-                <img src="images/<?php echo $articleToDisplay['picture']?>">
+            <div class="row justify-content-center">
+                <img src="images/<?php echo $articleToDisplay['picture'] ?>">
             </div>
         </div>
 
-        <div class="container w-50 border border-dark mb-4">
+        <div class="container w-50 border border-dark bg-light mb-4">
 
             <?php
-                echo "<div class=\"row pt-5 text-center font-weight-bold align-items-center bg-light p-3 justify-content-center\">
+            echo "<div class=\"row pt-5 text-center font-weight-bold align-items-center bg-light p-3 justify-content-center\">
                                 <h2>" . $articleToDisplay['name'] . "</h2>
                         </div>
                       <div class=\"row text-center font-italic align-items-center bg-light p-3 justify-content-center\">
                                 <h5>" . $articleToDisplay['description'] . "<h5>
                       </div>
+                      <div class=\"row text-center align-items-center bg-light p-3 ml-5 mr-5 justify-content-center\">
+                      <p>" . $articleToDisplay['detailedDescription'] . "<p>
+                     </div>
                       <div class=\"row text-center font-weight-light align-items-center bg-light p-3 justify-content-center\">    
                                 <h4>" . $articleToDisplay['price'] . " €</h4>
                       </div>

@@ -10,6 +10,10 @@ function getArticles()
         'id' => '1',
         'price' => 149.99,
         'description' => 'Moderne et élégante',
+        'detailedDescription' => 'Designée par nos experts, elle impose son style partout où elle passe. 
+                                  Elle allie le noir profond au plus beau bleu royal.
+                                  Equipée d\'un altimètre, elle affiche également la météo.  
+                                  Prix agressif et allure avant-gardiste : vous ne serez pas déçu.',
         'picture' => 'watch1.jpg'
     ];
 
@@ -18,6 +22,10 @@ function getArticles()
         'id' => '2',
         'price' => 229.49,
         'description' => 'Affiche l\'heure de 250 pays',
+        'detailedDescription' => 'Une montre qui respire la maturité avec son superbe bracelet en cuir authentique. 
+                                  Fonction incroyable permettant de consulter toutes les heures du globe.
+                                  Elégance garantie avec son cadran cerclé d\'argent.
+                                  Elle est destinée aux pères de famille qui aiment se faire plaisir.',
         'picture' => 'watch2.jpg'
     ];
 
@@ -25,7 +33,11 @@ function getArticles()
         'name' => 'Silver Star',
         'id' => '3',
         'price' => 345.99,
-        'description' => 'Bracelet acier inoxydable',
+        'description' => 'La classe à l\'état pur',
+        'detailedDescription' => '100% acier inoxydable haute résistance. 
+                                  Vous allez impressionner la galerie avec cette merveille !
+                                  Aiguilles phosphorescentes et cadran incassable avec vitre en plexiglas.  
+                                  N\'attendez plus et révélez le sportif en vous !',
         'picture' => 'watch3.jpg'
     ];
 
@@ -47,7 +59,7 @@ function showArticles()
     $articles = getArticles();
 
     foreach ($articles as $article) {
-        echo "<div class=\"card col-md-3 p-3 m-3\" style=\"width: 18rem;\">
+        echo "<div class=\"card col-md-5 col-lg-3 p-3 m-3\" style=\"width: 18rem;\">
                 <img class=\"card-img-top\" src=\"images/" . $article['picture'] . "\" alt=\"Card image cap\">
                 <div class=\"card-body\">
                     <h5 class=\"card-title font-weight-bold\">" . $article['name'] . "</h5>
@@ -190,12 +202,12 @@ function calculateShippingFees()
     $totalArticlesQuantity = 0;
 
     $cart = $_SESSION['cart'];
-    
+
     for ($i = 0; $i < count($cart); $i++) {
 
         $totalArticlesQuantity += $cart[$i]['quantity'];
     }
-    
+
     return  3 * $totalArticlesQuantity;
 }
 
@@ -216,8 +228,7 @@ function calculateTotalPrice()
 function emptyCart($showConfirmation)
 {
     $_SESSION['cart'] = [];
-    if ($showConfirmation)
-    {
+    if ($showConfirmation) {
         echo "<script> alert(\"Le panier a bien été vidé\");</script>";
-    } 
+    }
 }
