@@ -175,15 +175,14 @@ function getCartTotal()
         foreach ($_SESSION['cart'] as $article) {
             $cartTotal += $article['price'] * $article['quantity'];
         }
-        $cartTotal = number_format($cartTotal, 2, ',', ' ');
-        echo "Total des achats : " . $cartTotal . "€";
+        return $cartTotal;
     } else {
         echo "Votre panier est vide !";
     }
 }
 
 
-// ****************** calculer le total du panier **********************
+// ****************** calculer le montant des frais de port (3€ / montre) **********************
 
 
 function calculateShippingFees()
@@ -197,15 +196,28 @@ function calculateShippingFees()
         $totalArticlesQuantity += $cart[$i]['quantity'];
     }
     
-    return 3 * $totalArticlesQuantity;
+    return  3 * $totalArticlesQuantity;
+}
+
+
+// ****************** calculer le montant total de la commande **********************
+
+function calculateTotalPrice()
+{
+    $cartTotal = getCartTotal();
+    $shippingFees = calculateShippingFees();
+    return $cartTotal + $shippingFees;
 }
 
 
 // ****************** vider le panier **********************
 
 
-function emptyCart()
+function emptyCart($showConfirmation)
 {
     $_SESSION['cart'] = [];
-    echo "<script> alert(\"Le panier a bien été vidé\");</script>";
+    if ($showConfirmation)
+    {
+        echo "<script> alert(\"Le panier a bien été vidé\");</script>";
+    } 
 }

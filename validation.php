@@ -20,10 +20,10 @@ if (isset($_POST['modifiedArticleId'])) {
 }
 
 if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
-    emptyCart();
+    emptyCart($showConfirmation = true);
 }
 
-var_dump($_POST);
+// var_dump($_POST);
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +53,7 @@ var_dump($_POST);
             </div>
         </div>
 
-        <div class="container text-center">
+        <div class="container text-center mb-3">
             <h3 class="mb-5">Récapitulatif de votre commande</h3>
             <?php
             foreach ($_SESSION['cart'] as $chosenArticle) {
@@ -83,15 +83,72 @@ var_dump($_POST);
 
             <div class="row text-dark justify-content-end font-weight-bold bg-light p-4">
                 <?php
-                getCartTotal();
+                $cartTotal = getCartTotal();
+                if ($_SESSION['cart']){
+                $cartTotal = number_format($cartTotal, 2, ',', ' ');
+                echo "Total des achats : " . $cartTotal . "€";
+                }
+                ?>
+
+            </div>
+
+            <div class="row text-dark justify-content-end font-weight-bold bg-light p-4">
+                <?php
+                if ($_SESSION['cart']) {
+                    $shippingFees = calculateShippingFees();
+                    $shippingFees = number_format($shippingFees, 2, ',', ' ');
+                    echo "Frais de port (3€ par montre) : " . $shippingFees . "€";
+                }
                 ?>
             </div>
-            <?php if (!empty($_SESSION['cart']))
-            {
+
+            <div class="row text-dark justify-content-end font-weight-bold bg-light p-4">
+                <?php
+                if ($_SESSION['cart']) {
+                    $totalPrice = calculateTotalPrice();
+                    $totalPrice = number_format($totalPrice, 2, ',', ' ');
+                    echo "<h5>TOTAL A PAYER : " . $totalPrice . "€</h5>";
+                }
+                ?>
+            </div>
+
+            <?php if (!empty($_SESSION['cart'])) {
                 echo "<div class=\"row justify-content-center text-dark font-weight-bold bg-light p-4\">
-                    <button type=\"button\" class=\"btn btn-dark\">Confirmer l'achat</button>
+                    <button type=\"button\" class=\"btn btn-dark\" data-toggle=\"modal\" data-target=\"#confirmation\">Confirmer l'achat</button>
                 </div>";
-            }?>
+            } ?>
+
+            <!-- Modal -->
+            <div class="modal fade" id="confirmation" tabindex="-1" role="dialog" aria-labelledby="confirmation" aria-hidden="true">
+                <div class="modal-dialog" role="document" pointer-events="all">
+                    <div class="modal-content">
+                        <div class="modal-header text-light bg-dark text-center">
+                            <h5 class="modal-title" id="exampleModalLabel">Félicitations !</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <?php
+                        $showConfirmation = false;
+                        emptyCart($showConfirmation); ?>
+                        <div class="modal-body">
+                            <h4 class="text-success mt-3">Votre commande a été validée.</h4><br>
+                            <br>
+                            <h5>Montant total : <?php echo $totalPrice ?> €</h5><br>
+                            <br>
+                            Elle sera expédiée le <span class="font-weight-bold"><?php
+                                                                                    echo date('d-m-Y', strtotime(date('d-m-Y') . ' + 3 days')); ?></span><br>
+                            <br>
+                            Merci pour votre confiance.
+                        </div>
+                        <div class="modal-footer">
+                            <a href="index.php">
+                                <button class="btn btn-secondary">Retour à l'accueil</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </main>

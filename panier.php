@@ -20,7 +20,7 @@ if (isset($_POST['modifiedArticleId'])) {
 }
 
 if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
-    emptyCart();
+    emptyCart($showConfirmation = true);
 }
 
 // var_dump($_POST);
@@ -85,11 +85,15 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
 
             <div class="row justify-content-center text-dark font-weight-bold bg-light p-4">
                 <?php
-                getCartTotal();
+                $cartTotal = getCartTotal();
+                if ($_SESSION['cart']){
+                $cartTotal = number_format($cartTotal, 2, ',', ' ');
+                echo "Total des achats : " . $cartTotal . "€";
+                }
                 ?>
             </div>
 
-            <?php if (!empty($_SESSION['cart'])) {
+            <?php if ($_SESSION['cart']) {
                 echo   "<form action=\"panier.php\" method=\"post\" class=\"row justify-content-center text-dark font-weight-bold p-3\">
                              <input type=\"hidden\" name=\"emptyCart\" value=\"true\">
                             <button type=\"submit\" class=\"btn btn-danger\">Vider le panier</button>
