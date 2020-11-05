@@ -43,7 +43,7 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
 <body>
     <header>
         <?php
-        include('header.php');
+        include('header.php')
         ?>
     </header>
 
@@ -57,7 +57,7 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
         <div class="container text-center">
             <h3 class="mb-5">Panier</h3>
             <?php
-            showCartContent();
+            showCartContent("panier.php")
             ?>
 
             <div class="row justify-content-center text-dark font-weight-bold bg-light p-4">

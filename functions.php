@@ -159,7 +159,7 @@ function updateQuantity()
 
 // ************ afficher le contenu du panier ***********
 
-function showCartContent()
+function showCartContent($pageName)
 {
     foreach ($_SESSION['cart'] as $chosenArticle) {
         echo "<div class=\"row text-center text-light align-items-center bg-dark p-3 justify-content-around mb-1\">
@@ -168,7 +168,7 @@ function showCartContent()
                         <p class=\"col-md-2\">" . $chosenArticle['description'] . "</p>
                         <p class=\"col-md-2\">" . $chosenArticle['price'] . " €</p>
 
-                        <form class=\"col-lg-3\" action=\"panier.php\" method=\"post\">
+                        <form class=\"col-lg-3\" action=\"" . $pageName . "\" method=\"post\">
                             <div class=\"row pt-2\">
                             <input type=\"hidden\" name=\"modifiedArticleId\" value=\"" . $chosenArticle['id'] . "\">
                             <input class=\"col-2 offset-2\" type=\"text\" name=\"newQuantity\" value=\"" . $chosenArticle['quantity'] . "\">
@@ -178,7 +178,7 @@ function showCartContent()
                             </div>
                         </form>
 
-                        <form class=\"col-lg-1\" action=\"panier.php\" method=\"post\">
+                        <form class=\"col-lg-1\" action=\"" . $pageName . "\" method=\"post\">
                             <input type=\"hidden\" name=\"deletedArticle\" value=\"" . $chosenArticle['id'] . "\">
                             <button type=\"submit\" class=\"btn btn-dark\">
                                 <i class=\"fas fa-ban\"></i>
@@ -265,6 +265,7 @@ function calculateTotalPrice()
 function emptyCart($showConfirmation)
 {
     $_SESSION['cart'] = [];
+    
     if ($showConfirmation) {
         echo "<script> alert(\"Le panier a bien été vidé\");</script>";
     }

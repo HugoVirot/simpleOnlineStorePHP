@@ -54,29 +54,7 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
         <div class="container text-center mb-3">
             <h3 class="mb-5">Récapitulatif de votre commande</h3>
             <?php
-            foreach ($_SESSION['cart'] as $chosenArticle) {
-                echo "<div class=\"row text-center text-light align-items-center bg-dark p-3 justify-content-around mb-1\">
-                                <img style=\"width: 50px\" src=\"images/" . $chosenArticle['picture'] . "\">
-                                <p class=\"font-weight-bold\">" . $chosenArticle['name'] . "</p>
-                                <p>" . $chosenArticle['description'] . "</p>
-                                <p>" . $chosenArticle['price'] . " €</p>
-
-                                <form class=\"row\" action=\"validation.php\" method=\"post\">
-                                <input type=\"hidden\" name=\"modifiedArticleId\" value=\"" . $chosenArticle['id'] . "\">
-                                <input class=\"col-2 offset-3\" type=\"text\" name=\"newQuantity\" value=\"" . $chosenArticle['quantity'] . "\">
-                                <button type=\"submit\" class=\"col-5 offset-1 btn btn-light\">
-                                    Modifier quantité
-                                </button>
-                                </form>
-
-                                <form action=\"validation.php\" method=\"post\">
-                                    <input type=\"hidden\" name=\"deletedArticle\" value=\"" . $chosenArticle['id'] . "\">
-                                    <button type=\"submit\" class=\"btn btn-dark\">
-                                        <i class=\"fas fa-ban\"></i>
-                                    </button>
-                                </form>
-                              </div>";
-            }
+            showCartContent("validation.php")
             ?>
 
             <div class="row text-dark justify-content-end font-weight-bold bg-light p-4">
