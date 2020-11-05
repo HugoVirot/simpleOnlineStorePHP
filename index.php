@@ -1,12 +1,17 @@
 <?php
 session_start();
+
 include('functions.php');
 
 if (!isset ($_SESSION['cart'])){
     $_SESSION['cart'] = array();
 } 
 
-$articles = getArticles();
+if (isset($_POST['orderValidated']))
+{
+    emptyCart(false); 
+}
+
 ?>
 
 <!DOCTYPE html>

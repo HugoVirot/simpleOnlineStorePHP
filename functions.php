@@ -134,6 +134,7 @@ function removeToCart($articleId)
 }
 
 
+
 // ************ modifier la quantité d'un article dans le panier ***********
 
 function updateQuantity()
@@ -151,6 +152,39 @@ function updateQuantity()
                 $_SESSION['cart'][$i]['quantity'] = $newQuantity;
             }
         }
+    }
+}
+
+
+
+// ************ afficher le contenu du panier ***********
+
+function showCartContent()
+{
+    foreach ($_SESSION['cart'] as $chosenArticle) {
+        echo "<div class=\"row text-center text-light align-items-center bg-dark p-3 justify-content-around mb-1\">
+                        <img class=\"col-md-2\" style=\"width: 150px\" src=\"images/" . $chosenArticle['picture'] . "\">
+                        <p class=\"font-weight-bold col-md-2\">" . $chosenArticle['name'] . "</p>
+                        <p class=\"col-md-2\">" . $chosenArticle['description'] . "</p>
+                        <p class=\"col-md-2\">" . $chosenArticle['price'] . " €</p>
+
+                        <form class=\"col-lg-3\" action=\"panier.php\" method=\"post\">
+                            <div class=\"row pt-2\">
+                            <input type=\"hidden\" name=\"modifiedArticleId\" value=\"" . $chosenArticle['id'] . "\">
+                            <input class=\"col-2 offset-2\" type=\"text\" name=\"newQuantity\" value=\"" . $chosenArticle['quantity'] . "\">
+                            <button type=\"submit\" class=\"col-5 offset-1 btn btn-light\">
+                                Modifier quantité
+                            </button>
+                            </div>
+                        </form>
+
+                        <form class=\"col-lg-1\" action=\"panier.php\" method=\"post\">
+                            <input type=\"hidden\" name=\"deletedArticle\" value=\"" . $chosenArticle['id'] . "\">
+                            <button type=\"submit\" class=\"btn btn-dark\">
+                                <i class=\"fas fa-ban\"></i>
+                            </button>
+                        </form>
+                      </div>";
     }
 }
 
@@ -194,6 +228,7 @@ function getCartTotal()
 }
 
 
+
 // ****************** calculer le montant des frais de port (3€ / montre) **********************
 
 
@@ -212,6 +247,7 @@ function calculateShippingFees()
 }
 
 
+
 // ****************** calculer le montant total de la commande **********************
 
 function calculateTotalPrice()
@@ -220,6 +256,7 @@ function calculateTotalPrice()
     $shippingFees = calculateShippingFees();
     return $cartTotal + $shippingFees;
 }
+
 
 
 // ****************** vider le panier **********************

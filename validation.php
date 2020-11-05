@@ -23,7 +23,6 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
     emptyCart($showConfirmation = true);
 }
 
-// var_dump($_POST);
 ?>
 
 <!DOCTYPE html>
@@ -127,9 +126,6 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <?php
-                        $showConfirmation = false;
-                        emptyCart($showConfirmation); ?>
                         <div class="modal-body">
                             <h4 class="text-success mt-3">Votre commande a été validée.</h4><br>
                             <br>
@@ -141,9 +137,10 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
                             Merci pour votre confiance.
                         </div>
                         <div class="modal-footer">
-                            <a href="index.php">
-                                <button class="btn btn-secondary">Retour à l'accueil</button>
-                            </a>
+                            <form action="index.php" method="post">
+                                <input type="hidden" name="orderValidated" value="true">
+                                <input type="submit" class="btn btn-secondary" value="Retour à l'accueil">
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -157,6 +154,9 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
     ?>
 
 </body>
+<script>
+
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
