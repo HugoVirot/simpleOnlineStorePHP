@@ -98,6 +98,40 @@ function getArticleFromId($id)
 
 
 
+// ****************** afficher le détail d'un article sur la page produit **********************
+
+function showArticleDetails($articleToDisplay)
+{
+    echo "<div class=\"container p-2\">
+            <div class=\"row justify-content-center\">
+                <img src=\"images/" . $articleToDisplay['picture'] . "\">
+            </div>
+          </div>
+
+          <div class=\"container w-50 border border-dark bg-light mb-4\">
+            <div class=\"row pt-5 text-center font-weight-bold align-items-center bg-light p-3 justify-content-center\">
+                <h2>" . $articleToDisplay['name'] . "</h2>
+            </div>
+            <div class=\"row text-center font-italic align-items-center bg-light p-3 justify-content-center\">
+                <h5>" . $articleToDisplay['description'] . "<h5>
+            </div>
+            <div class=\"row text-center align-items-center bg-light p-3 ml-5 mr-5 justify-content-center\">
+                <p>" . $articleToDisplay['detailedDescription'] . "<p>
+            </div>
+            <div class=\"row text-center font-weight-light align-items-center bg-light p-3 justify-content-center\">    
+                <h4>" . $articleToDisplay['price'] . " €</h4>
+            </div>
+            <div class=\"row pb-5 text-center align-items-center bg-light p-3 justify-content-center\"> 
+                <form action=\"panier.php\" method=\"post\">
+                    <input type=\"hidden\" name=\"chosenArticle\" value=\"" . $articleToDisplay['id'] . "\">
+                    <input class=\"btn btn-dark mt-2\" type=\"submit\" value=\"Ajouter au panier\">
+                </form>
+            </div>
+          </div>";
+}
+
+
+
 // ****************** ajouter un article au panier **********************
 
 function addToCart($article)
@@ -190,6 +224,24 @@ function showCartContent($pageName)
 
 
 
+// ************ afficher les boutons "vider panier" et "valider la commande"  ***********
+
+function showButtons()
+{
+    if ($_SESSION['cart']) {
+        echo   "<form action=\"panier.php\" method=\"post\" class=\"row justify-content-center text-dark font-weight-bold p-2\">
+                 <input type=\"hidden\" name=\"emptyCart\" value=\"true\">
+                <button type=\"submit\" class=\"btn btn-danger\">Vider le panier</button>
+            </form>
+            <a href=\"validation.php\">
+                <div class=\"row justify-content-center p-2\">
+                    <button type=\"button\" class=\"btn btn-dark\">Valider la commande</button>
+                </div>
+            </a>";
+    }
+}
+
+
 // ************vérifie que la quantité entrée est un nombre entre 1 et 10  ***********
 
 function checkTypedQuantity()
@@ -224,6 +276,18 @@ function getCartTotal()
         return $cartTotal;
     } else {
         echo "Votre panier est vide !";
+    }
+}
+
+
+// ****************** afficher le total du panier **********************
+
+function showCartTotal()
+{
+    $cartTotal = getCartTotal();
+    if ($_SESSION['cart']) {
+        $cartTotal = number_format($cartTotal, 2, ',', ' ');
+        echo "Total des achats : " . $cartTotal . "€";
     }
 }
 
@@ -265,7 +329,7 @@ function calculateTotalPrice()
 function emptyCart($showConfirmation)
 {
     $_SESSION['cart'] = [];
-    
+
     if ($showConfirmation) {
         echo "<script> alert(\"Le panier a bien été vidé\");</script>";
     }

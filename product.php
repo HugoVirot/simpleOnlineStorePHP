@@ -2,12 +2,6 @@
 session_start();
 
 include('functions.php');
-
-if (isset($_POST['articleToDisplay'])) {
-
-    $articleToDisplayId = $_POST['articleToDisplay'];
-    $articleToDisplay = getArticleFromId($articleToDisplayId);
-}
 ?>
 
 <!DOCTYPE html>
@@ -30,37 +24,13 @@ if (isset($_POST['articleToDisplay'])) {
     </header>
 
     <main>
-        <div class="container p-5">
-            <div class="row justify-content-center">
-                <img src="images/<?php echo $articleToDisplay['picture'] ?>">
-            </div>
-        </div>
-
-        <div class="container w-50 border border-dark bg-light mb-4">
-
-            <?php
-            echo "<div class=\"row pt-5 text-center font-weight-bold align-items-center bg-light p-3 justify-content-center\">
-                                <h2>" . $articleToDisplay['name'] . "</h2>
-                        </div>
-                      <div class=\"row text-center font-italic align-items-center bg-light p-3 justify-content-center\">
-                                <h5>" . $articleToDisplay['description'] . "<h5>
-                      </div>
-                      <div class=\"row text-center align-items-center bg-light p-3 ml-5 mr-5 justify-content-center\">
-                      <p>" . $articleToDisplay['detailedDescription'] . "<p>
-                     </div>
-                      <div class=\"row text-center font-weight-light align-items-center bg-light p-3 justify-content-center\">    
-                                <h4>" . $articleToDisplay['price'] . " €</h4>
-                      </div>
-                      <div class=\"row pb-5 text-center align-items-center bg-light p-3 justify-content-center\"> 
-                             <form action=\"panier.php\" method=\"post\">
-                                <input type=\"hidden\" name=\"chosenArticle\" value=\"" . $articleToDisplay['id'] . "\">
-                                <input class=\"btn btn-dark mt-2\" type=\"submit\" value=\"Ajouter au panier\">
-                             </form>
-                      </div>";
-            ?>
-
-        </div>
-
+        <?php
+        if (isset($_POST['articleToDisplay'])) {
+            $articleToDisplayId = $_POST['articleToDisplay'];
+            $articleToDisplay = getArticleFromId($articleToDisplayId);
+            showArticleDetails($articleToDisplay);
+        }
+        ?>
     </main>
 
     <?php

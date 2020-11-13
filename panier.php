@@ -19,13 +19,10 @@ if (isset($_POST['modifiedArticleId'])) {
     updateQuantity();
 }
 
-if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
-    emptyCart($showConfirmation = true);
+if (isset($_POST['emptyCart'])) {
+    emptyCart(true);
 }
 
-// var_dump($_POST);
-
-// var_dump($_SESSION['cart']);
 ?>
 
 <!DOCTYPE html>
@@ -62,25 +59,13 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
 
             <div class="row justify-content-center text-dark font-weight-bold bg-light p-4">
                 <?php
-                $cartTotal = getCartTotal();
-                if ($_SESSION['cart']) {
-                    $cartTotal = number_format($cartTotal, 2, ',', ' ');
-                    echo "Total des achats : " . $cartTotal . "€";
-                }
+                showCartTotal();
                 ?>
             </div>
 
-            <?php if ($_SESSION['cart']) {
-                echo   "<form action=\"panier.php\" method=\"post\" class=\"row justify-content-center text-dark font-weight-bold p-3\">
-                             <input type=\"hidden\" name=\"emptyCart\" value=\"true\">
-                            <button type=\"submit\" class=\"btn btn-danger\">Vider le panier</button>
-                        </form>
-                        <a href=\"validation.php\">
-                            <div class=\"row justify-content-center p-4\">
-                                <button type=\"button\" class=\"btn btn-dark\">Valider la commande</button>
-                            </div>
-                        </a>";
-            } ?>
+            <?php
+            showButtons();
+            ?>
 
         </div>
 

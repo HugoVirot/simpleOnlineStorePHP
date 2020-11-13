@@ -57,18 +57,14 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
             showCartContent("validation.php")
             ?>
 
-            <div class="row text-dark justify-content-end font-weight-bold bg-light p-4">
+            <div class="row text-dark justify-content-center font-weight-bold bg-light p-4">
                 <?php
-                $cartTotal = getCartTotal();
-                if ($_SESSION['cart']) {
-                    $cartTotal = number_format($cartTotal, 2, ',', ' ');
-                    echo "Total des achats : " . $cartTotal . "€";
-                }
+                showCartTotal();
                 ?>
 
             </div>
 
-            <div class="row text-dark justify-content-end font-weight-bold bg-light p-4">
+            <div class="row text-dark justify-content-center font-weight-bold bg-light p-4">
                 <?php
                 if ($_SESSION['cart']) {
                     $shippingFees = calculateShippingFees();
@@ -78,7 +74,7 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
                 ?>
             </div>
 
-            <div class="row text-dark justify-content-end font-weight-bold bg-light p-4">
+            <div class="row text-dark justify-content-center font-weight-bold bg-light p-4">
                 <?php
                 if ($_SESSION['cart']) {
                     $totalPrice = calculateTotalPrice();
