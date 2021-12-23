@@ -1,8 +1,3 @@
-<?php
-?>
-<!doctype html>
-<html>
-
 <header>
     <div class="container-fluid text-center">
         <a href="index.php" style="text-decoration: none; color: inherit">
@@ -27,5 +22,3 @@
             </nav>
     </div>
 </header>
-
-</html>

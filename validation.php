@@ -1,7 +1,7 @@
 <?php
 session_start();
-
 include('functions.php');
+createCart();
 
 if (isset($_POST['chosenArticle'])) {
 
@@ -23,21 +23,21 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
     emptyCart($showConfirmation = true);
 }
 
+if (isset($_POST['delivery'])) {
+    $_SESSION['delivery'] = $_POST['delivery'];
+}
 ?>
 
 <!DOCTYPE html>
 
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valider la commande - Arinfo, montres intemporelles</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-</head>
+<?php
+include('./head.php');
+?>
 
 <body>
+    
     <header>
         <?php
         include('header.php');
@@ -74,17 +74,41 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
                 ?>
             </div>
 
+            <div>
+                <h3 class="p-3">Type de livraison</h3>
+                <form method="post" action="validation.php">
+                    <div class="form-group">
+                        <input type="radio" name="delivery" id="domicile" value="domicile" <?php if (isset($_SESSION['delivery']) && $_SESSION['delivery'] === "domicile") { ?> checked <?php } ?>>
+                        <label for="classique">à domicile: 10 €</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" name="delivery" id="pointrelais" value="pointrelais" <?php if (isset($_SESSION['delivery']) && $_SESSION['delivery'] === "pointrelais") { ?> checked <?php } ?>>
+                        <label for="classique">en point-relais : 5 €</label>
+                    </div>
+                    <button type="submit" class="btn btn-info mb-3">Valider</button>
+                </form>
+            </div>
+
             <div class="row text-dark justify-content-center font-weight-bold bg-light p-4">
                 <?php
                 if ($_SESSION['cart']) {
                     $totalPrice = calculateTotalPrice();
+
+                    if (isset($_SESSION['delivery'])) {
+                        if ($_SESSION['delivery'] === "domicile") {
+                            $totalPrice += 10;
+                        } else {
+                            $totalPrice += 5;
+                        }
+                    }
+
                     $totalPrice = number_format($totalPrice, 2, ',', ' ');
                     echo "<h5>TOTAL A PAYER : " . $totalPrice . "€</h5>";
                 }
                 ?>
             </div>
 
-            <?php if (!empty($_SESSION['cart'])) {
+            <?php if (!empty($_SESSION['cart']) && isset($_SESSION['delivery'])) {
                 echo "<div class=\"row justify-content-center text-dark font-weight-bold bg-light p-4\">
                     <button type=\"button\" class=\"btn btn-dark\" data-toggle=\"modal\" data-target=\"#confirmation\">Confirmer l'achat</button>
                 </div>";
@@ -105,12 +129,26 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
                             <br>
                             <h5>Montant total : <?php echo $totalPrice ?> €</h5><br>
                             <br>
-                            Elle sera expédiée le <span class="font-weight-bold"><?php
-                                                                                    echo date('d-m-Y', strtotime(date('d-m-Y') . ' + 3 days')); ?></span><br>
-                            <br>
+
+                            Elle sera expédiée le
+                            <span class="font-weight-bold">
+                                <?php
+                                // date version 1 : affichée ainsi : 6 juin 2021
+                                setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
+                                $date = date("Y-m-d");
+                                echo utf8_encode(strftime("%A %d %B %Y", strtotime($date . " + 2 days")));
+                                // date version 2 : date affichée ainsi : 06-06-2021
+                                // echo date('d-m-Y', strtotime(date('d-m-Y') . ' + 3 days')); 
+                                ?>
+                            </span><br><br>
+
+                            Livraison prévue le
+                            <span class="font-weight-bold">
+                                <?php echo utf8_encode(strftime("%A %d %B %Y", strtotime($date . " + 9 days"))); ?>
+                            </span><br><br>
                             Merci pour votre confiance.
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer mt-3">
                             <form action="index.php" method="post">
                                 <input type="hidden" name="orderValidated" value="true">
                                 <input type="submit" class="btn btn-secondary" value="Retour à l'accueil">
@@ -128,11 +166,5 @@ if (isset($_POST['emptyCart']) && $_POST['emptyCart'] == true) {
     ?>
 
 </body>
-<script>
-
-</script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
 
 </html>
